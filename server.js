@@ -1,5 +1,5 @@
 const express = require('express');
-const { OpenAI } = require('openai');
+const { OpenAI } = require('openai/index.mjs');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -136,15 +136,34 @@ app.post('/api/ask/:documentId', async (req, res) => {
 
 
 // Get list of uploaded documents
+// app.get('/api/documents', (req, res) => {
+//     const documents = Array.from(uploadedDocuments.keys()).map(id => ({
+//         documentId: id
+//     }));
+    
+//     res.json({
+//         success: true,
+//         documents: documents
+//     });
+// });
+
+// Get list of uploaded documents by reading all files in the "uploads" folder
 app.get('/api/documents', (req, res) => {
-    const documents = Array.from(uploadedDocuments.keys()).map(id => ({
-        documentId: id
+  const uploadsDir = path.join(__dirname, 'uploads');
+  fs.readdir(uploadsDir, (err, files) => {
+    if (err) {
+      console.error('Error reading uploads folder:', err);
+      return res.status(500).json({ success: false, error: 'Failed to read uploads folder' });
+    }
+    const documents = files.filter(file => !file.startsWith('.')).map(file => ({
+      documentId: file
     }));
     
     res.json({
-        success: true,
-        documents: documents
+      success: true,
+      documents: documents
     });
+  });
 });
 
 app.listen(8020, () => {
