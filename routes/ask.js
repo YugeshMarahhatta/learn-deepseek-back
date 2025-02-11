@@ -50,16 +50,18 @@ router.post('/:documentId', async (req, res) => {
     // Construct the prompt with clear instructions
     const prompt = `
     [INST] <<SYS>>
-    You are a helpful assistant that answers questions based on the provided document.
-    Only use information from the document to answer.
-    If the answer isn't in the document, say "I don't know".
+    You are a helpful assistant that answers questions ONLY using information from the provided document. Follow these rules:
+    1. If the question cannot be answered using the document, respond with "I don't know"
+    2. Keep your answers concise and directly relevant to the question
+    3. Never mention that you're referring to a document
+    4. Only reply the greetings of user 
     <</SYS>>
 
-    DOCUMENT CONTENT:
+    Document Content:
     ${documentContent}
 
-    QUESTION: ${question} [/INST]
-        `;
+    Question: ${question} [/INST]
+    `;
 
     // Call the external API (Ollama API in this example)
     try{
