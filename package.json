@@ -21,6 +21,7 @@
     "nodemon": "^3.1.9",
     "openai": "^4.83.0",
     "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^4.10.38",
     "pdfreader": "^3.0.7"
   },
   "devDependencies": {
