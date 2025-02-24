@@ -13,11 +13,14 @@ app.use(express.json());
 import uploadRouter from './routes/upload.js';
 import askRouter from './routes/ask.js';
 import documentsRouter from './routes/documents.js';
+import askV2Router from './routes/askv2.js';
 
 // Mount the routers
 app.use('/api/upload', uploadRouter);
 app.use('/api/ask', askRouter);
 app.use('/api/documents', documentsRouter);
+
+app.use('/api/stream', askV2Router);
 
 const PORT = process.env.PORT || 8020;
 app.listen(PORT, () => {
